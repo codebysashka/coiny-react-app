@@ -13,13 +13,46 @@ const TransactionsPage = (props) => {
 	const [filterCategory, setFilterCategory] = useState('all')
 	const [selectedIds, setSelectedIds] = useState([])
 	const [sortConfig, setSortConfig] = useState({ key: 'date', direction: 'desc' })
+	const [dateFilter, setDateFilter] = useState('all')
+	const [startDate, setStartDate] = useState('');
+	const [endDate, setEndDate] = useState('');
+
+	const now = new Date();
+	const todayStr = now.toISOString().split('T')[0];
+
+	const yesterday = new Date();
+	yesterday.setDate(now.getDate() - 1);
+	const yesterdayStr = yesterday.toISOString().split('T')[0];
+
+	const startOfWeek = new Date();
+	startOfWeek.setDate(now.getDate() - 7);
 
 	const filteredItems = items.filter((item) => {
 		const matchesSearch = item.text.toLowerCase().includes(searchTerm.toLowerCase()) ||
 			item.merchant?.toLowerCase().includes(searchTerm.toLowerCase())
 		const matchesType = filterType === 'all' || item.type === filterType
 		const matchesCategory = filterCategory === 'all' || item.category === filterCategory
-		return matchesSearch && matchesType && matchesCategory
+
+		let matchesDate = true;
+
+		if (dateFilter === 'today') {
+			matchesDate = item.date === todayStr;
+		} else if (dateFilter === 'yesterday') {
+			matchesDate = item.date === yesterdayStr;
+		} else if (dateFilter === 'thisWeek') {
+			matchesDate = item.date >= startOfWeek.toISOString().split('T')[0];
+		} else if (dateFilter === 'thisMonth') {
+			const itemDate = new Date(item.date);
+			matchesDate = itemDate.getMonth() === now.getMonth() &&
+				itemDate.getFullYear() === now.getFullYear();
+		} else if (dateFilter === 'thisYear') {
+			const itemDate = new Date(item.date);
+			matchesDate = itemDate.getFullYear() === now.getFullYear();
+		} else if (dateFilter === 'custom') {
+			matchesDate = item.date >= startDate && item.date <= endDate;
+		}
+
+		return matchesSearch && matchesType && matchesCategory && matchesDate
 	})
 
 	const toggleSelect = (id) => {
@@ -61,6 +94,30 @@ const TransactionsPage = (props) => {
 			<button onClick={() => setFilterType('all')}>All</button>
 			<button onClick={() => setFilterType('income')}>Income</button>
 			<button onClick={() => setFilterType('expense')}>Expense</button>
+			<select value={dateFilter} onChange={(e) => setDateFilter(e.target.value)}>
+				<option value="all">All Time</option>
+				<option value="today">Today</option>
+				<option value="yesterday">Yesterday</option>
+				<option value="thisWeek">Last 7 Days</option>
+				<option value="thisMonth">This Month</option>
+				<option value="thisYear">This Year</option>
+				<option value="custom">Custom Range</option>
+			</select>
+			{dateFilter === 'custom' && (
+				<div style={{ display: 'inline-block', marginLeft: '10px' }}>
+					<input
+						type="date"
+						value={startDate}
+						onChange={(e) => setStartDate(e.target.value)}
+					/>
+					<span> to </span>
+					<input
+						type="date"
+						value={endDate}
+						onChange={(e) => setEndDate(e.target.value)}
+					/>
+				</div>
+			)}
 			<select value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)}>
 				<option value="all">All Categories</option>
 				<option value="food">Food</option>
@@ -116,7 +173,7 @@ const TransactionsPage = (props) => {
 							<td>{item.text}</td>
 							<td>{item.merchant}</td>
 							<td>{item.category}</td>
-							<td>{item.type === 'expense' ? '-' : '+'}{item.amount}</td>
+							<td>{item.type === 'expense' ? '-' : '+'}{item.amount} ₽</td>
 						</tr>
 					))}
 				</tbody>

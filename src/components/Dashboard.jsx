@@ -6,6 +6,8 @@ import Header from './Header'
 import { useEffect, useState } from 'react'
 import Navigation from './Navigation'
 import TransactionsPage from './TransactionsPage'
+import CurrencyPage from './CurrencyPage'
+import MonthlyOverviewPage from './MonthlyOverviewPage'
 
 const Dashboard = () => {
 	const [transaction, setTransaction] = useState(() => {
@@ -20,6 +22,12 @@ const Dashboard = () => {
 		return item.type === 'income' ? acc + item.amount : acc - item.amount
 	}, 0)
 	const [activeTab, setActiveTab] = useState('home')
+	const [rates, setRates] = useState({})
+	const [budgets, setBudgets] = useState({})
+
+	useEffect(() => {
+		localStorage.setItem('budgets', JSON.stringify(budgets))
+	}, [budgets])
 
 	useEffect(() => {
 		localStorage.setItem('transactions', JSON.stringify(transaction))
@@ -28,6 +36,23 @@ const Dashboard = () => {
 	useEffect(() => {
 		localStorage.setItem('savings', JSON.stringify(savings))
 	}, [savings])
+
+	useEffect(() => {
+		const getRates = async () => {
+			try {
+				const response = await fetch('https://v6.exchangerate-api.com/v6/698f2d5d57c85a5953412859/latest/RUB')
+				const data = await response.json()
+
+				if (data.result === 'success') {
+					setRates(data.conversion_rates)
+					console.log("Rates updated:", data.conversion_rates)
+				}
+			} catch (error) {
+				console.error("Error fetching rates:", error)
+			}
+		}
+		getRates()
+	}, [])
 
 	const addTransaction = (newTransaction) => {
 		setTransaction([...transaction, newTransaction])
@@ -90,7 +115,17 @@ const Dashboard = () => {
 			date: new Date().toISOString().split('T')[0]
 		};
 		addTransaction(withdrawTransaction)
-	};
+	}
+
+	const updateBudget = (month, category, amount) => {
+		setBudgets(prev => ({
+			...prev,
+			[month]: {
+				...(prev[month] || {}),
+				[category]: amount      
+			}
+		}))
+	}
 
 	return (
 		<>
@@ -141,11 +176,20 @@ const Dashboard = () => {
 			{activeTab === 'overview' && (
 				<main>
 					<h2>Monthly Overview & Analytics</h2>
+					<MonthlyOverviewPage
+						transactions={transaction}
+						budgets={budgets}
+						onUpdate={updateBudget}
+					/>
 				</main>
 			)}
 			{activeTab === 'currency' && (
 				<main>
 					<h2>Currency Settings</h2>
+					<CurrencyPage
+						rates={rates}
+						totalBalance={totalBalance}
+					/>
 				</main>
 			)}
 		</>

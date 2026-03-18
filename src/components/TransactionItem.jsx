@@ -10,7 +10,7 @@ const TransactionItem = (props) => {
 		<li>
 			<span>{data.text} </span>
 			<span style={{ color: isExpense ? 'red' : 'green' }}>
-				{isExpense ? '-' : ''}{data.amount}
+				{isExpense ? '-' : ''}{data.amount} ₽
 			</span>
 			<span> {data.merchant}</span>
 			<span> {new Date(data.date).toLocaleDateString('ru-RU')}</span>
