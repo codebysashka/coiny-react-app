@@ -1,14 +1,18 @@
 import { useState } from "react"
+import { CATEGORIES, SUBCATEGORIES } from "./constants"
+import CategorySelector from "./CategorySelector"
+import ModalWindow from "./ModalWindow"
 
 const TransactionForm = (props) => {
 	const {
 		onAdd,
 	} = props
 
+	const [category, setCategory] = useState('food')
+	const [subCategory, setSubCategory] = useState(SUBCATEGORIES['food'][0])
 	const [spendingName, setSpendingName] = useState('')
 	const [spendingAmount, setSpendingAmount] = useState('')
 	const [isOpen, setIsOpen] = useState(false)
-	const [category, setCategory] = useState('food')
 	const [merchant, setMerchant] = useState('')
 	const [date, setDate] = useState(new Date().toISOString().split('T')[0])
 
@@ -24,7 +28,8 @@ const TransactionForm = (props) => {
 				type: isExpense ? 'expense' : 'income',
 				merchant: merchant,
 				date: date,
-				category: category
+				category: category,
+				subCategory: subCategory
 			}
 			onAdd(newTransaction)
 			setSpendingName('')
@@ -38,45 +43,45 @@ const TransactionForm = (props) => {
 
 	return (
 		<>
-			{isOpen ? (
+			<button onClick={() => setIsOpen(true)}>New</button>
+			<ModalWindow
+				isOpen={isOpen}
+				onClose={() => setIsOpen(false)}
+				title="Add New Transaction"
+			>
 				<form onSubmit={handleSubmit}>
-					<input type="text"
-						name="description"
+					<input
+						type="text"
+						placeholder="Description"
 						value={spendingName}
 						onChange={(e) => setSpendingName(e.target.value)}
 					/>
-					<input type="text"
-						name="amount"
+					<input
+						type="text"
+						placeholder="Amount"
 						value={spendingAmount}
-						onChange={(e) => {
-							const val = e.target.value.replace(/[^0-9+\-*/.]/g, '');
-							setSpendingAmount(val);
-						}}
-						placeholder="e.g. -35-45 or 100+50"
+						onChange={(e) => setSpendingAmount(e.target.value.replace(/[^0-9+\-*/.]/g, ''))}
 					/>
-					<input type="text"
+					<input
+						type="text"
+						placeholder="Merchant"
 						value={merchant}
 						onChange={(e) => setMerchant(e.target.value)}
 					/>
-					<input type="date"
+					<input
+						type="date"
 						value={date}
 						onChange={(e) => setDate(e.target.value)}
 					/>
-					<select value={category} onChange={(e) => setCategory(e.target.value)}>
-						<option value="food">Food</option>
-						<option value="shopping">Shopping</option>
-						<option value="transport">Transport</option>
-						<option value="entertainment">Entertainment</option>
-						<option value="salary">Salary</option>
-						<option value="savings">Savings</option>
-						<option value="other">Other</option>
-					</select>
+					<CategorySelector
+						category={category}
+						setCategory={setCategory}
+						subCategory={subCategory}
+						setSubCategory={setSubCategory}
+					/>
 					<button type="submit">Add</button>
-					<button type="button" onClick={() => setIsOpen(false)}>Cancel</button>
 				</form>
-			) : (
-				<button onClick={() => setIsOpen(true)}>New</button>
-			)}
+			</ModalWindow>
 		</>
 	)
 }

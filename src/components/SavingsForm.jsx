@@ -26,7 +26,7 @@ const SavingsForm = (props) => {
 	return (
 		<>
 			{isOpen ? (
-				<form onSubmit={handleSubmit}>
+				<form onSubmit={handleSubmit} name="savingsForm">
 					<input type="text"
 						name="savingsName"
 						value={savingsName}

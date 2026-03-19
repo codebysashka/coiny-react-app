@@ -1,5 +1,6 @@
 import { useState } from "react"
 import TransactionForm from "./TransactionForm"
+import CategorySelector from "./CategorySelector"
 
 const TransactionsPage = (props) => {
 	const {
@@ -11,48 +12,49 @@ const TransactionsPage = (props) => {
 	const [searchTerm, setSearchTerm] = useState('')
 	const [filterType, setFilterType] = useState('all')
 	const [filterCategory, setFilterCategory] = useState('all')
+	const [filterSubCategory, setFilterSubCategory] = useState('all')
 	const [selectedIds, setSelectedIds] = useState([])
 	const [sortConfig, setSortConfig] = useState({ key: 'date', direction: 'desc' })
 	const [dateFilter, setDateFilter] = useState('all')
-	const [startDate, setStartDate] = useState('');
-	const [endDate, setEndDate] = useState('');
+	const [startDate, setStartDate] = useState('')
+	const [endDate, setEndDate] = useState('')
 
-	const now = new Date();
-	const todayStr = now.toISOString().split('T')[0];
+	const now = new Date()
+	const todayStr = now.toISOString().split('T')[0]
 
-	const yesterday = new Date();
-	yesterday.setDate(now.getDate() - 1);
-	const yesterdayStr = yesterday.toISOString().split('T')[0];
+	const yesterday = new Date()
+	yesterday.setDate(now.getDate() - 1)
+	const yesterdayStr = yesterday.toISOString().split('T')[0]
 
-	const startOfWeek = new Date();
-	startOfWeek.setDate(now.getDate() - 7);
+	const startOfWeek = new Date()
+	startOfWeek.setDate(now.getDate() - 7)
 
 	const filteredItems = items.filter((item) => {
 		const matchesSearch = item.text.toLowerCase().includes(searchTerm.toLowerCase()) ||
 			item.merchant?.toLowerCase().includes(searchTerm.toLowerCase())
 		const matchesType = filterType === 'all' || item.type === filterType
 		const matchesCategory = filterCategory === 'all' || item.category === filterCategory
-
-		let matchesDate = true;
+		const matchesSubCategory = filterSubCategory === 'all' || item.subCategory === filterSubCategory
+		let matchesDate = true
 
 		if (dateFilter === 'today') {
-			matchesDate = item.date === todayStr;
+			matchesDate = item.date === todayStr
 		} else if (dateFilter === 'yesterday') {
-			matchesDate = item.date === yesterdayStr;
+			matchesDate = item.date === yesterdayStr
 		} else if (dateFilter === 'thisWeek') {
-			matchesDate = item.date >= startOfWeek.toISOString().split('T')[0];
+			matchesDate = item.date >= startOfWeek.toISOString().split('T')[0]
 		} else if (dateFilter === 'thisMonth') {
-			const itemDate = new Date(item.date);
+			const itemDate = new Date(item.date)
 			matchesDate = itemDate.getMonth() === now.getMonth() &&
-				itemDate.getFullYear() === now.getFullYear();
+				itemDate.getFullYear() === now.getFullYear()
 		} else if (dateFilter === 'thisYear') {
-			const itemDate = new Date(item.date);
-			matchesDate = itemDate.getFullYear() === now.getFullYear();
+			const itemDate = new Date(item.date)
+			matchesDate = itemDate.getFullYear() === now.getFullYear()
 		} else if (dateFilter === 'custom') {
-			matchesDate = item.date >= startDate && item.date <= endDate;
+			matchesDate = item.date >= startDate && item.date <= endDate
 		}
 
-		return matchesSearch && matchesType && matchesCategory && matchesDate
+		return matchesSearch && matchesType && matchesCategory && matchesSubCategory && matchesDate
 	})
 
 	const toggleSelect = (id) => {
@@ -64,16 +66,19 @@ const TransactionsPage = (props) => {
 	}
 
 	const handleSort = (key) => {
-		let direction = 'desc'
-		if (sortConfig.key === key) {
-			direction = sortConfig.direction === 'desc' ? 'asc' : 'desc'
+		let direction = 'asc'
+		if (sortConfig.key === key && sortConfig.direction === 'asc') {
+			direction = 'desc'
 		}
 		setSortConfig({ key, direction })
 	}
 
 	const sortedItems = [...filteredItems].sort((a, b) => {
-		const valA = a[sortConfig.key]
-		const valB = b[sortConfig.key]
+		let valA = a[sortConfig.key]
+		let valB = b[sortConfig.key]
+
+		if (typeof valA === 'string') valA = valA.toLowerCase()
+		if (typeof valB === 'string') valB = valB.toLowerCase()
 
 		if (valA < valB) {
 			return sortConfig.direction === 'asc' ? -1 : 1
@@ -81,8 +86,8 @@ const TransactionsPage = (props) => {
 		if (valA > valB) {
 			return sortConfig.direction === 'asc' ? 1 : -1
 		}
-		return 0;
-	});
+		return 0
+	})
 
 	return (
 		<>
@@ -106,28 +111,27 @@ const TransactionsPage = (props) => {
 			{dateFilter === 'custom' && (
 				<div style={{ display: 'inline-block', marginLeft: '10px' }}>
 					<input
+						name="startDate"
 						type="date"
 						value={startDate}
 						onChange={(e) => setStartDate(e.target.value)}
 					/>
 					<span> to </span>
 					<input
+						name="endDate"
 						type="date"
 						value={endDate}
 						onChange={(e) => setEndDate(e.target.value)}
 					/>
 				</div>
 			)}
-			<select value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)}>
-				<option value="all">All Categories</option>
-				<option value="food">Food</option>
-				<option value="shopping">Shopping</option>
-				<option value="transport">Transport</option>
-				<option value="entertainment">Entertainment</option>
-				<option value="salary">Salary</option>
-				<option value="savings">Savings</option>
-				<option value="other">Other</option>
-			</select>
+			<CategorySelector
+				category={filterCategory}
+				setCategory={setFilterCategory}
+				subCategory={filterSubCategory}
+				setSubCategory={setFilterSubCategory}
+				isFilter={true}
+			/>
 			<button
 				disabled={selectedIds.length === 0}
 				onClick={() => {
@@ -143,19 +147,22 @@ const TransactionsPage = (props) => {
 					<tr>
 						<th>Select</th>
 						<th onClick={() => handleSort('date')} style={{ cursor: 'pointer' }}>
-							Date {sortConfig.key === 'date' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}
+							Date {sortConfig.key === 'date' ? (sortConfig.direction === 'asc' ? '↓' : '↑') : ''}
 						</th>
 						<th onClick={() => handleSort('text')} style={{ cursor: 'pointer' }}>
-							Description {sortConfig.key === 'text' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}
+							Description {sortConfig.key === 'text' ? (sortConfig.direction === 'asc' ? '↓' : '↑') : ''}
 						</th>
 						<th onClick={() => handleSort('merchant')} style={{ cursor: 'pointer' }}>
-							Merchant {sortConfig.key === 'merchant' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}
+							Merchant {sortConfig.key === 'merchant' ? (sortConfig.direction === 'asc' ? '↓' : '↑') : ''}
 						</th>
 						<th onClick={() => handleSort('category')} style={{ cursor: 'pointer' }}>
-							Category {sortConfig.key === 'category' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}
+							Category {sortConfig.key === 'category' ? (sortConfig.direction === 'asc' ? '↓' : '↑') : ''}
+						</th>
+						<th onClick={() => handleSort('subCategory')} style={{ cursor: 'pointer' }}>
+							SubCategory {sortConfig.key === 'subCategory' ? (sortConfig.direction === 'asc' ? '↓' : '↑') : ''}
 						</th>
 						<th onClick={() => handleSort('amount')} style={{ cursor: 'pointer' }}>
-							Amount {sortConfig.key === 'amount' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}
+							Amount {sortConfig.key === 'amount' ? (sortConfig.direction === 'asc' ? '↓' : '↑') : ''}
 						</th>
 					</tr>
 				</thead>
@@ -164,6 +171,7 @@ const TransactionsPage = (props) => {
 						<tr key={item.id} style={{ color: item.type === 'income' ? 'green' : 'red' }}>
 							<td>
 								<input
+									name="checkbox"
 									type="checkbox"
 									checked={selectedIds.includes(item.id)}
 									onChange={() => toggleSelect(item.id)}
@@ -173,6 +181,7 @@ const TransactionsPage = (props) => {
 							<td>{item.text}</td>
 							<td>{item.merchant}</td>
 							<td>{item.category}</td>
+							<td>{item.subCategory}</td>
 							<td>{item.type === 'expense' ? '-' : '+'}{item.amount} ₽</td>
 						</tr>
 					))}

@@ -1,16 +1,13 @@
 const BudgetModal = (props) => {
-	const {
-		categories,
-		currentMonthBudgets,
-		onUpdate,
-		onClose,
-		selectedDate,
-		dateTitle,
+	const { 
+		categories, 
+		currentMonthBudgets, 
+		onUpdate, 
+		selectedDate 
 	} = props
 
 	return (
-		<div className="modal-content">
-			<h3>Adjust Budget for {dateTitle}</h3>
+		<div>
 			{categories.map((category) => {
 				const currentValue = currentMonthBudgets[category] || 0;
 				return (
@@ -24,7 +21,6 @@ const BudgetModal = (props) => {
 					</div>
 				)
 			})}
-			<button onClick={onClose}>Save & Close</button>
 		</div>
 	)
 }

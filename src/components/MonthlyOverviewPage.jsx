@@ -1,6 +1,8 @@
 import { useState } from "react"
 import React from "react"
 import BudgetModal from "./BudgetModal"
+import ModalWindow from "./ModalWindow"
+import OverviewCharts from "./OverviewCharts"
 
 const MonthlyOverviewPage = (props) => {
 	const {
@@ -11,7 +13,7 @@ const MonthlyOverviewPage = (props) => {
 
 	const [selectedDate, setSelectedDate] = useState(new Date().toISOString().slice(0, 7))
 	const [isModalOpen, setIsModalOpen] = useState(false)
-	const categories = ['food', 'shopping', 'transport', 'entertainment', 'salary', 'savings', 'other']
+	const categories = ['food', 'shopping', 'transport', 'entertainment', 'income', 'savings', 'other']
 
 	const monthlyData = transactions.filter((transaction) => {
 		return transaction.date.startsWith(selectedDate)
@@ -34,27 +36,29 @@ const MonthlyOverviewPage = (props) => {
 
 	const totalPlanned = Object.values(currentMonthBudgets).reduce((acc, val) => acc + val, 0)
 
-	const categorySummary = categories.map(cat => {
-		const catTransactions = monthlyData.filter(t => t.category.toLowerCase() === cat.toLowerCase())
-
-		const netActual = catTransactions.reduce((acc, t) => {
+	const categorySummary = categories.map(category => {
+		const categoryTransactions = monthlyData.filter(t => t.category.toLowerCase() === category.toLowerCase())
+		const netActual = categoryTransactions.reduce((acc, t) => {
 			return t.type === 'income' ? acc + t.amount : acc - t.amount
 		}, 0)
 
-		const budget = currentMonthBudgets[cat] || 0
+		const budget = currentMonthBudgets[category] || 0
 
 		return {
-			name: cat,
-			transactions: catTransactions,
+			name: category,
+			transactions: categoryTransactions,
 			totalSpent: netActual,
 			budget: budget,
-			remaining: budget + netActual
+			remaining: category.toLowerCase() === 'income'
+				? netActual - budget
+				: budget + netActual
 		}
 	})
 
 	return (
 		<>
 			<input
+				name="date"
 				type="month"
 				value={selectedDate}
 				onChange={(e) => setSelectedDate(e.target.value)}
@@ -106,16 +110,28 @@ const MonthlyOverviewPage = (props) => {
 					</tbody>
 				</table>
 			</section>
-			{isModalOpen && (
+			<OverviewCharts
+				monthlyData={monthlyData}
+				currentMonthBudgets={currentMonthBudgets}
+				categories={categories}
+				selectedDate={selectedDate}
+				totalMonthlyExpenses={totalMonthlyExpenses}
+				totalMonthlyIncome={totalMonthlyIncome}
+				categorySummary={categorySummary}
+			/>
+			<ModalWindow
+				isOpen={isModalOpen}
+				onClose={() => setIsModalOpen(false)}
+				title={`Adjust Budget for ${dateTitle}`}
+			>
 				<BudgetModal
-					onClose={() => setIsModalOpen(false)}
 					categories={categories}
 					currentMonthBudgets={currentMonthBudgets}
 					selectedDate={selectedDate}
 					onUpdate={onUpdate}
-					dateTitle={dateTitle}
+					onClose={() => setIsModalOpen(false)}
 				/>
-			)}
+			</ModalWindow>
 		</>
 	)
 }

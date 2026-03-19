@@ -23,7 +23,10 @@ const Dashboard = () => {
 	}, 0)
 	const [activeTab, setActiveTab] = useState('home')
 	const [rates, setRates] = useState({})
-	const [budgets, setBudgets] = useState({})
+	const [budgets, setBudgets] = useState(() => {
+		const savedData = localStorage.getItem('budgets')
+		return savedData ? JSON.parse(savedData) : []
+	})
 
 	useEffect(() => {
 		localStorage.setItem('budgets', JSON.stringify(budgets))
@@ -98,7 +101,7 @@ const Dashboard = () => {
 		if (!targetGoal) return
 
 		if (amount > targetGoal.current) {
-			alert("Not enough funds in this goal!")
+			alert('Not enough money in this goal!')
 			return
 		}
 		const updatedSavings = savings.map(item =>
@@ -122,7 +125,7 @@ const Dashboard = () => {
 			...prev,
 			[month]: {
 				...(prev[month] || {}),
-				[category]: amount      
+				[category]: amount
 			}
 		}))
 	}

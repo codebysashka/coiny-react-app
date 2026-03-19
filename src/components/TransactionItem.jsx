@@ -15,6 +15,7 @@ const TransactionItem = (props) => {
 			<span> {data.merchant}</span>
 			<span> {new Date(data.date).toLocaleDateString('ru-RU')}</span>
 			<span> {data.category}</span>
+			<span> {data.subCategory}</span>
 			<button onClick={() => onDelete(data.id)}>Delete</button>
 		</li>
 	)
