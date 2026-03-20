@@ -1,4 +1,6 @@
 import { useState } from "react"
+import Input from "../ui/Input"
+import Button from "../ui/Button"
 
 const SavingsItem = (props) => {
 	const {
@@ -15,19 +17,22 @@ const SavingsItem = (props) => {
 			<div>Goal: {data.title}</div>
 			<div>Target: {data.target}</div>
 			<div>Saved so far: {data.current}</div>
-			<input type="text" 
+			<Input
+				type="text"
+				name="amount"
+				placeholder='Amount'
 				value={depositValue}
 				onChange={(e) => setDepositValue(e.target.value)}
 			/>
-			<button onClick={() => {
+			<Button onClick={() => {
 				onDeposit(data.id, Number(depositValue))
 				setDepositValue('')
-			}}>Deposit</button>
-			<button onClick={() => {
+			}}>Deposit</Button>
+			<Button onClick={() => {
 				onWithdrow(data.id, Number(depositValue))
 				setDepositValue('')
-			}}>Withdraw</button>
-			<button onClick={() => onDelete(data.id)}>Delete</button>
+			}}>Withdraw</Button>
+			<Button onClick={() => onDelete(data.id)} variant='delete'>Delete</Button>
 		</li>
 	)
 }

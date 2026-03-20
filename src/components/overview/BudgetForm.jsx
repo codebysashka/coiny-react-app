@@ -1,9 +1,11 @@
+import Input from "../ui/Input"
+
 const BudgetModal = (props) => {
-	const { 
-		categories, 
-		currentMonthBudgets, 
-		onUpdate, 
-		selectedDate 
+	const {
+		categories,
+		currentMonthBudgets,
+		onUpdate,
+		selectedDate
 	} = props
 
 	return (
@@ -11,9 +13,11 @@ const BudgetModal = (props) => {
 			{categories.map((category) => {
 				const currentValue = currentMonthBudgets[category] || 0;
 				return (
-					<div key={category} style={{ marginBottom: '10px' }}>
-						<label style={{ display: 'block' }}>{category.toUpperCase()}</label>
-						<input
+					<div key={category}>
+						<label>
+							{category.toUpperCase()}
+						</label>
+						<Input
 							type="number"
 							value={currentValue}
 							onChange={(e) => onUpdate(selectedDate, category, Number(e.target.value))}
@@ -25,4 +29,4 @@ const BudgetModal = (props) => {
 	)
 }
 
-export default BudgetModal
+export default BudgetModal;

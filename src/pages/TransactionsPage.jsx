@@ -1,6 +1,13 @@
 import { useState } from "react"
-import TransactionForm from "./TransactionForm"
-import CategorySelector from "./CategorySelector"
+import TransactionForm from "../components/transactions/TransactionForm"
+import CategorySelector from "../components/transactions/CategorySelector"
+import TransactionsTable from "../components/transactions/TransactionsTable"
+import Input from "../components/ui/Input"
+import Button from "../components/ui/Button"
+
+
+//Добавить общие траты расходы общую сумму доходов и расходов типо если выбран определенный период и 
+// показаны несколько транзакций то только эти транзакции плюсуются разделяясь на доходы и расходы
 
 const TransactionsPage = (props) => {
 	const {
@@ -92,13 +99,15 @@ const TransactionsPage = (props) => {
 	return (
 		<>
 			<TransactionForm onAdd={onAdd} />
-			<input type="text" name="search"
+			<Input
+				type="text"
+				name="search"
 				value={searchTerm}
 				onChange={(e) => setSearchTerm(e.target.value)}
 			/>
-			<button onClick={() => setFilterType('all')}>All</button>
-			<button onClick={() => setFilterType('income')}>Income</button>
-			<button onClick={() => setFilterType('expense')}>Expense</button>
+			<Button onClick={() => setFilterType('all')}>All</Button>
+			<Button onClick={() => setFilterType('income')}>Income</Button>
+			<Button onClick={() => setFilterType('expense')}>Expense</Button>
 			<select value={dateFilter} onChange={(e) => setDateFilter(e.target.value)}>
 				<option value="all">All Time</option>
 				<option value="today">Today</option>
@@ -132,7 +141,8 @@ const TransactionsPage = (props) => {
 				setSubCategory={setFilterSubCategory}
 				isFilter={true}
 			/>
-			<button
+			<Button
+				variant='delete'
 				disabled={selectedIds.length === 0}
 				onClick={() => {
 					const remaining = items.filter(item => !selectedIds.includes(item.id))
@@ -141,52 +151,14 @@ const TransactionsPage = (props) => {
 				}}
 			>
 				Delete Selected ({selectedIds.length})
-			</button>
-			<table>
-				<thead>
-					<tr>
-						<th>Select</th>
-						<th onClick={() => handleSort('date')} style={{ cursor: 'pointer' }}>
-							Date {sortConfig.key === 'date' ? (sortConfig.direction === 'asc' ? '↓' : '↑') : ''}
-						</th>
-						<th onClick={() => handleSort('text')} style={{ cursor: 'pointer' }}>
-							Description {sortConfig.key === 'text' ? (sortConfig.direction === 'asc' ? '↓' : '↑') : ''}
-						</th>
-						<th onClick={() => handleSort('merchant')} style={{ cursor: 'pointer' }}>
-							Merchant {sortConfig.key === 'merchant' ? (sortConfig.direction === 'asc' ? '↓' : '↑') : ''}
-						</th>
-						<th onClick={() => handleSort('category')} style={{ cursor: 'pointer' }}>
-							Category {sortConfig.key === 'category' ? (sortConfig.direction === 'asc' ? '↓' : '↑') : ''}
-						</th>
-						<th onClick={() => handleSort('subCategory')} style={{ cursor: 'pointer' }}>
-							SubCategory {sortConfig.key === 'subCategory' ? (sortConfig.direction === 'asc' ? '↓' : '↑') : ''}
-						</th>
-						<th onClick={() => handleSort('amount')} style={{ cursor: 'pointer' }}>
-							Amount {sortConfig.key === 'amount' ? (sortConfig.direction === 'asc' ? '↓' : '↑') : ''}
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					{sortedItems.map((item) => (
-						<tr key={item.id} style={{ color: item.type === 'income' ? 'green' : 'red' }}>
-							<td>
-								<input
-									name="checkbox"
-									type="checkbox"
-									checked={selectedIds.includes(item.id)}
-									onChange={() => toggleSelect(item.id)}
-								/>
-							</td>
-							<td>{new Date(item.date).toLocaleDateString('ru-RU')}</td>
-							<td>{item.text}</td>
-							<td>{item.merchant}</td>
-							<td>{item.category}</td>
-							<td>{item.subCategory}</td>
-							<td>{item.type === 'expense' ? '-' : '+'}{item.amount} ₽</td>
-						</tr>
-					))}
-				</tbody>
-			</table>
+			</Button>
+			<TransactionsTable
+				items={sortedItems}             
+				selectedIds={selectedIds}      
+				onToggleSelect={toggleSelect}   
+				onSort={handleSort}             
+				sortConfig={sortConfig}       
+			/>
 		</>
 	)
 }

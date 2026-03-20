@@ -1,4 +1,6 @@
 import { useState } from "react"
+import Amount from "../components/ui/Amount"
+import Input from "../components/ui/Input"
 
 const CurrencyPage = (props) => {
 	const {
@@ -25,7 +27,7 @@ const CurrencyPage = (props) => {
 		<div>
 			<section>
 				<h3>Balance Viewer</h3>
-				<p>Your total balance in RUB is: {totalBalance} ₽</p>
+				<p>Your total balance in RUB is: <Amount value={totalBalance} showColor={false} /></p>
 				<select value={viewCurrency} onChange={(e) => setViewCurrency(e.target.value)}>
 					{codes.map(code => (
 						<option key={code} value={code}>
@@ -38,7 +40,8 @@ const CurrencyPage = (props) => {
 			<hr />
 			<section>
 				<h3>Quick Currency Converter</h3>
-				<input
+				<Input
+					name='value'
 					type="number"
 					value={converterAmount}
 					onChange={(e) => setConverterAmount(e.target.value)}

@@ -1,4 +1,4 @@
-import { CATEGORIES, SUBCATEGORIES } from "./constants"
+import { CATEGORIES, SUBCATEGORIES } from "../constants"
 
 const CategorySelector = (props) => {
 	const {

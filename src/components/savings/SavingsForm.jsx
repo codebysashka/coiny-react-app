@@ -1,4 +1,7 @@
 import { useState } from "react"
+import ModalWindow from "../layout/ModalWindow"
+import Button from "../ui/Button"
+import Input from "../ui/Input"
 
 const SavingsForm = (props) => {
 	const {
@@ -25,24 +28,26 @@ const SavingsForm = (props) => {
 
 	return (
 		<>
-			{isOpen ? (
+			<Button onClick={() => setIsOpen(true)}>Add New Savings</Button>
+			<ModalWindow
+				isOpen={isOpen}
+				onClose={() => setIsOpen(false)}
+				title="Add New Savings"
+			>
 				<form onSubmit={handleSubmit} name="savingsForm">
-					<input type="text"
+					<Input type="text"
 						name="savingsName"
 						value={savingsName}
 						onChange={(e) => setSavingsName(e.target.value)}
 					/>
-					<input type="number"
+					<Input type="number"
 						name="targetAmount"
 						value={targetAmount}
 						onChange={(e) => setTargetAmount(e.target.value)}
 					/>
-					<button type="submit">Add</button>
-					<button type="button" onClick={() => setIsOpen(false)}>Cancel</button>
+					<Button type="submit">Add</Button>
 				</form>
-			) : (
-				<button onClick={() => setIsOpen(true)}>Add New Savings</button>
-			)}
+			</ModalWindow>
 		</>
 	)
 }

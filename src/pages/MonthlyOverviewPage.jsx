@@ -1,8 +1,11 @@
 import { useState } from "react"
-import React from "react"
-import BudgetModal from "./BudgetModal"
-import ModalWindow from "./ModalWindow"
-import OverviewCharts from "./OverviewCharts"
+import BudgetModal from "../components/overview/BudgetForm"
+import ModalWindow from "../components/layout/ModalWindow"
+import OverviewCharts from "../components/overview/OverviewCharts"
+import Amount from "../components/ui/Amount"
+import Input from "../components/ui/Input"
+import Button from "../components/ui/Button"
+import OverviewTable from "../components/overview/OverviewTable"
 
 const MonthlyOverviewPage = (props) => {
 	const {
@@ -34,7 +37,12 @@ const MonthlyOverviewPage = (props) => {
 		.filter(t => t.type === 'expense')
 		.reduce((acc, t) => acc + t.amount, 0)
 
-	const totalPlanned = Object.values(currentMonthBudgets).reduce((acc, val) => acc + val, 0)
+	const totalPlanned = Object.keys(currentMonthBudgets).reduce((acc, category) => {
+		if (category.toLowerCase() !== 'income') {
+			return acc + (currentMonthBudgets[category] || 0);
+		}
+		return acc
+	}, 0)
 
 	const categorySummary = categories.map(category => {
 		const categoryTransactions = monthlyData.filter(t => t.category.toLowerCase() === category.toLowerCase())
@@ -55,60 +63,44 @@ const MonthlyOverviewPage = (props) => {
 		}
 	})
 
+	const incomeData = categorySummary.find(item => item.name === 'income')
+	const expenseSummary = categorySummary.filter(item => item.name !== 'income')
+	
 	return (
 		<>
-			<input
+			<Input
 				name="date"
 				type="month"
 				value={selectedDate}
 				onChange={(e) => setSelectedDate(e.target.value)}
 			/>
 			<h2>{dateTitle}</h2>
-			<button onClick={() => setIsModalOpen(true)}>Set Monthly Budget</button>
+			<Button onClick={() => setIsModalOpen(true)}>Set Monthly Budget</Button>
 			<section>
 				<div>
 					<div>
-						<strong>Total Income:</strong> {totalMonthlyIncome} ₽
+						<strong>Total Income:</strong> <Amount value={totalMonthlyIncome} showColor={false} />
 					</div>
 					<div>
-						<strong>Total Expenses:</strong> {totalMonthlyExpenses} ₽
+						<strong>Total Budget (Limit):</strong> <Amount value={totalPlanned} showColor={false} />
 					</div>
 					<div>
-						<strong>Remaining Budget:</strong> {totalPlanned - totalMonthlyExpenses} ₽
+						<strong>Total Expenses:</strong> <Amount value={totalMonthlyExpenses} showColor={false} />
+					</div>
+					<div>
+						<strong>Remaining Budget:</strong> <Amount value={totalPlanned - totalMonthlyExpenses} showColor={false} />
 					</div>
 				</div>
-				<table>
-					<thead>
-						<tr>
-							<th>CATEGORY</th>
-							<th>EXPECTED</th>
-							<th>ACTUAL</th>
-							<th>REMAINING</th>
-						</tr>
-					</thead>
-					<tbody>
-						{categorySummary.map((group) => (
-							<React.Fragment key={group.name}>
-								<tr style={{ backgroundColor: '#f9f9f9', fontWeight: 'bold' }}>
-									<td>{group.name.toUpperCase()}</td>
-									<td>{group.budget} ₽</td>
-									<td>{group.totalSpent} ₽</td>
-									<td style={{ color: group.remaining < 0 ? 'red' : 'green' }}>
-										{group.remaining} ₽
-									</td>
-								</tr>
-								{group.transactions.map((t) => (
-									<tr key={t.id} style={{ fontSize: '0.9em', color: '#555' }}>
-										<td>{t.text}</td>
-										<td></td>
-										<td>{t.type === 'expense' ? '-' : '+'}{t.amount}</td>
-										<td></td>
-									</tr>
-								))}
-							</React.Fragment>
-						))}
-					</tbody>
-				</table>
+				<div>
+					<h3>Income Tracking</h3>
+					<p>Expected: <Amount value={incomeData?.budget} /> | Actual: <Amount value={incomeData?.totalSpent} /></p>
+					<p>Difference: <Amount value={incomeData?.remaining} type="income" showColor={false}/></p>
+				</div>
+				<hr />
+				<h3>Expense Limits</h3>
+				<OverviewTable
+					data={expenseSummary}
+				/>
 			</section>
 			<OverviewCharts
 				monthlyData={monthlyData}

@@ -1,3 +1,5 @@
+import Button from "../ui/Button";
+
 const ModalWindow = (props) => {
 	const {
 		isOpen,
@@ -13,7 +15,7 @@ const ModalWindow = (props) => {
 			<div className="modal-content">
 				<div className="modal-header">
 					<h3>{title}</h3>
-					<button onClick={onClose}>X</button>
+					<Button onClick={onClose} variant='close'>X</Button>
 				</div>
 				<div className="modal-body">
 					{children}

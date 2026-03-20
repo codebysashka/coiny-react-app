@@ -1,7 +1,9 @@
 import { useState } from "react"
-import { CATEGORIES, SUBCATEGORIES } from "./constants"
+import { CATEGORIES, SUBCATEGORIES } from "../constants"
 import CategorySelector from "./CategorySelector"
-import ModalWindow from "./ModalWindow"
+import ModalWindow from "../layout/ModalWindow"
+import Input from "../ui/Input"
+import Button from "../ui/Button"
 
 const TransactionForm = (props) => {
 	const {
@@ -43,33 +45,37 @@ const TransactionForm = (props) => {
 
 	return (
 		<>
-			<button onClick={() => setIsOpen(true)}>New</button>
+			<Button onClick={() => setIsOpen(true)}>New</Button>
 			<ModalWindow
 				isOpen={isOpen}
 				onClose={() => setIsOpen(false)}
-				title="Add New Transaction"
+				title='Add New Transaction'
 			>
 				<form onSubmit={handleSubmit}>
-					<input
-						type="text"
-						placeholder="Description"
+					<Input
+						type='text'
+						name='description'
+						placeholder='Description'
 						value={spendingName}
 						onChange={(e) => setSpendingName(e.target.value)}
 					/>
-					<input
-						type="text"
-						placeholder="Amount"
+					<Input
+						type='text'
+						name='amount'
+						placeholder='Amount (e.g. 50-30+8)'
 						value={spendingAmount}
 						onChange={(e) => setSpendingAmount(e.target.value.replace(/[^0-9+\-*/.]/g, ''))}
 					/>
-					<input
-						type="text"
-						placeholder="Merchant"
+					<Input
+						type='text'
+						name='merchant'
+						placeholder='Merchant'
 						value={merchant}
 						onChange={(e) => setMerchant(e.target.value)}
 					/>
-					<input
-						type="date"
+					<Input
+						type='date'
+						name='date'
 						value={date}
 						onChange={(e) => setDate(e.target.value)}
 					/>
@@ -79,7 +85,7 @@ const TransactionForm = (props) => {
 						subCategory={subCategory}
 						setSubCategory={setSubCategory}
 					/>
-					<button type="submit">Add</button>
+					<Button type='submit' variant='close'>Add</Button>
 				</form>
 			</ModalWindow>
 		</>

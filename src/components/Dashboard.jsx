@@ -1,13 +1,13 @@
-import SavingsForm from './SavingsForm'
-import SavingsList from './SavingsList'
-import TransactionList from './TransactionList'
-import TransactionForm from './TransactionForm'
-import Header from './Header'
+import SavingsForm from './savings/SavingsForm'
+import SavingsList from './savings/SavingsList'
+import TransactionList from './transactions/TransactionList'
+import TransactionForm from './transactions/TransactionForm'
+import Header from './layout/Header'
 import { useEffect, useState } from 'react'
-import Navigation from './Navigation'
-import TransactionsPage from './TransactionsPage'
-import CurrencyPage from './CurrencyPage'
-import MonthlyOverviewPage from './MonthlyOverviewPage'
+import Navigation from './layout/Navigation'
+import TransactionsPage from '../pages/TransactionsPage'
+import CurrencyPage from '../pages/CurrencyPage'
+import MonthlyOverviewPage from '../pages/MonthlyOverviewPage'
 
 const Dashboard = () => {
 	const [transaction, setTransaction] = useState(() => {
