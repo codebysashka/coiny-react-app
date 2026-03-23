@@ -1,22 +1,26 @@
 const Input = (props) => {
-	const { 
-		value, 
-		onChange, 
-		type = 'text', 
-		placeholder, 
-		name, 
-		...rest 
+	const {
+		label,
+		value,
+		onChange,
+		type = 'text',
+		placeholder,
+		name,
+		...rest
 	} = props
 
 	return (
-		<input
-			type={type}
-			value={value}
-			name={name}
-			placeholder={placeholder}
-			onChange={onChange}
-			{...rest} 
-		/>
+		<div className="input-field-group">
+			{label && <label className="field-label">{label}</label>}
+			<input
+				type={type}
+				value={value}
+				name={name}
+				placeholder={placeholder}
+				onChange={onChange}
+				{...rest}
+			/>
+		</div>
 	)
 }
 

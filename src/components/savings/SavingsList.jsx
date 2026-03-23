@@ -6,6 +6,7 @@ const SavingsList = (props) => {
 		onDelete,
 		onDeposit,
 		onWithdrow,
+		onEdit
 	} = props
 
 	return (
@@ -18,6 +19,7 @@ const SavingsList = (props) => {
 						onDelete={onDelete}
 						onDeposit={onDeposit}
 						onWithdrow={onWithdrow}
+						onEdit={onEdit}
 					/>
 				)
 			})}

@@ -3,11 +3,12 @@ import Amount from "../ui/Amount"
 
 const TransactionsTable = (props) => {
 	const {
-		items,         
-		selectedIds,    
-		onToggleSelect, 
-		onSort,         
-		sortConfig      
+		items,
+		selectedIds,
+		onToggleSelect,
+		onSort,
+		sortConfig,
+		onEdit
 	} = props
 
 	return (
@@ -37,7 +38,11 @@ const TransactionsTable = (props) => {
 			</thead>
 			<tbody>
 				{items.map((item) => (
-					<tr key={item.id} style={{ color: item.type === 'income' ? 'green' : 'red' }}>
+					<tr key={item.id}
+						onClick={(e) => {
+							if (e.target.type !== 'checkbox') onEdit(item)
+						}}
+						style={{ color: item.type === 'income' ? 'green' : 'red', cursor: 'pointer' }}>
 						<td>
 							<Input
 								type="checkbox"

@@ -1,0 +1,37 @@
+.btn {
+	all: unset;
+	cursor: pointer;
+	font-family: 'Quicksand', sans-serif;
+	font-weight: 600;
+	transition: opacity 0.2s ease;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.btn:hover {
+	opacity: 0.7;
+}
+
+.btn-close {
+	color: #adb5bd;
+	font-size: 24px;
+	padding: 0;
+	margin: 0;
+	line-height: 1;
+}
+
+.btn-delete {
+	color: #ff5f5f;
+	font-size: 15px;
+	background: none !important;
+	border: none !important;
+}
+
+.btn-primary {
+	background-color: #ff85a1 !important;
+	color: white !important;
+	padding: 12px 25px;
+	border-radius: 20px;
+	box-shadow: 0 4px 15px rgba(255, 133, 161, 0.3);
+}

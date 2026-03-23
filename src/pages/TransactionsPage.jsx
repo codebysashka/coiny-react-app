@@ -4,16 +4,14 @@ import CategorySelector from "../components/transactions/CategorySelector"
 import TransactionsTable from "../components/transactions/TransactionsTable"
 import Input from "../components/ui/Input"
 import Button from "../components/ui/Button"
-
-
-//Добавить общие траты расходы общую сумму доходов и расходов типо если выбран определенный период и 
-// показаны несколько транзакций то только эти транзакции плюсуются разделяясь на доходы и расходы
+import TransactionsSummary from "../components/transactions/TransactionsSummary"
 
 const TransactionsPage = (props) => {
 	const {
 		items,
 		setTransaction,
 		onAdd,
+		onEdit
 	} = props
 
 	const [searchTerm, setSearchTerm] = useState('')
@@ -152,12 +150,16 @@ const TransactionsPage = (props) => {
 			>
 				Delete Selected ({selectedIds.length})
 			</Button>
+			<TransactionsSummary
+				items={filteredItems}
+			/>
 			<TransactionsTable
-				items={sortedItems}             
-				selectedIds={selectedIds}      
-				onToggleSelect={toggleSelect}   
-				onSort={handleSort}             
-				sortConfig={sortConfig}       
+				items={sortedItems}
+				selectedIds={selectedIds}
+				onToggleSelect={toggleSelect}
+				onSort={handleSort}
+				sortConfig={sortConfig}
+				onEdit={onEdit}
 			/>
 		</>
 	)

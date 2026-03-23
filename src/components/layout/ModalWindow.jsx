@@ -1,4 +1,8 @@
-import Button from "../ui/Button";
+import Button from "../ui/Button"
+import '../../styles/ModalWindow.css'
+import '../../styles/Button.css'
+import '../../styles/Input.css'
+
 
 const ModalWindow = (props) => {
 	const {
@@ -14,7 +18,7 @@ const ModalWindow = (props) => {
 		<div className="modal-overlay">
 			<div className="modal-content">
 				<div className="modal-header">
-					<h3>{title}</h3>
+					<h3 className="modal-title">{title}</h3>
 					<Button onClick={onClose} variant='close'>X</Button>
 				</div>
 				<div className="modal-body">

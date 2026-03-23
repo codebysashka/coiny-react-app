@@ -11,14 +11,14 @@ const BudgetModal = (props) => {
 	return (
 		<div>
 			{categories.map((category) => {
-				const currentValue = currentMonthBudgets[category] || 0;
+				const currentValue = currentMonthBudgets[category] || 0
 				return (
 					<div key={category}>
 						<label>
 							{category.toUpperCase()}
 						</label>
 						<Input
-							type="number"
+							type='number'
 							value={currentValue}
 							onChange={(e) => onUpdate(selectedDate, category, Number(e.target.value))}
 						/>
@@ -29,4 +29,4 @@ const BudgetModal = (props) => {
 	)
 }
 
-export default BudgetModal;
+export default BudgetModal

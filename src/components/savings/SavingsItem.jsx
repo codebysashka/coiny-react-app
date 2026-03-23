@@ -5,18 +5,20 @@ import Button from "../ui/Button"
 const SavingsItem = (props) => {
 	const {
 		data,
-		onDelete,
 		onDeposit,
 		onWithdrow,
+		onEdit
 	} = props
 
 	const [depositValue, setDepositValue] = useState('')
 
 	return (
-		<li>
-			<div>Goal: {data.title}</div>
-			<div>Target: {data.target}</div>
-			<div>Saved so far: {data.current}</div>
+		<li style={{ cursor: 'pointer', marginBottom: '20px' }}>
+			<div onClick={() => onEdit(data)}>
+				<div>Goal: {data.title}</div>
+				<div>Target: {data.target}</div>
+				<div>Saved so far: {data.current}</div>
+			</div>
 			<Input
 				type="text"
 				name="amount"
@@ -32,7 +34,6 @@ const SavingsItem = (props) => {
 				onWithdrow(data.id, Number(depositValue))
 				setDepositValue('')
 			}}>Withdraw</Button>
-			<Button onClick={() => onDelete(data.id)} variant='delete'>Delete</Button>
 		</li>
 	)
 }

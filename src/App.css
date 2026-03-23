@@ -1,0 +1,45 @@
+.home-layout {
+	display: grid;
+	grid-template-columns: 1fr 380px;
+	gap: 40px;
+	margin-top: 30px;
+}
+
+.glass-card {
+	background: rgba(255, 255, 255, 0.5);
+	backdrop-filter: blur(15px);
+	border-radius: 35px;
+	padding: 30px;
+	border: 1px solid rgba(255, 255, 255, 0.4);
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+	margin-bottom: 30px;
+}
+
+.column-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.net-worth-card {
+	text-align: center;
+	background: #ffe3e3;
+}
+
+.total-balance-display {
+	font-size: 40px;
+	font-weight: 800;
+	margin: 10px 0;
+}
+
+.btn-primary {
+	background: #ff85a1;
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 15px;
+	font-weight: 700;
+	cursor: pointer;
+	box-shadow: 0 4px 15px rgba(255, 133, 161, 0.4);
+}

@@ -1,0 +1,65 @@
+.transaction-pill {
+	background: rgba(255, 255, 255, 0.85);
+	backdrop-filter: blur(5px);
+	border-radius: 25px;
+	padding: 12px 20px;
+	margin-bottom: 12px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+	cursor: pointer;
+	transition: all 0.3s ease;
+	border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.transaction-pill:hover {
+	transform: translateY(-3px) scale(1.01);
+	background: #ffffff;
+}
+
+.pill-left {
+	display: flex;
+	align-items: center;
+	gap: 15px;
+}
+
+.icon-wrapper img {
+	width: 35px;
+	height: 35px;
+}
+
+.pill-info {
+	display: flex;
+	flex-direction: column;
+}
+
+.pill-title {
+	font-weight: 700;
+	font-size: 15px;
+	color: #4a4a6a;
+}
+
+.pill-merchant {
+	font-size: 11px;
+	color: #8e94a5;
+	text-transform: uppercase;
+	font-weight: 600;
+}
+
+.pill-right {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 4px;
+}
+
+.pill-category-tag {
+	font-size: 10px;
+	background: #fff3f3;
+	padding: 2px 8px;
+	border-radius: 10px;
+	color: #ff85a1;
+	font-weight: 700;
+	text-transform: uppercase;
+}
