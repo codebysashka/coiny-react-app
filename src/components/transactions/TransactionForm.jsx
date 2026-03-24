@@ -85,7 +85,7 @@ const TransactionForm = (props) => {
 						subCategory={subCategory}
 						setSubCategory={setSubCategory}
 					/>
-					<Button type='submit' variant='close'>Add</Button>
+					<Button type='submit' variant='primary'>Add</Button>
 				</form>
 			</ModalWindow>
 		</>

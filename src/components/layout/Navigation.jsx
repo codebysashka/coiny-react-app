@@ -1,4 +1,4 @@
-import Button from "../ui/Button"
+import '../../styles/Navigation.css'
 
 const Navigation = (props) => {
 	const {
@@ -7,12 +7,32 @@ const Navigation = (props) => {
 	} = props
 
 	return (
-		<>
-			<Button onClick={() => setActiveTab('home')} variant={activeTab === 'home' ? 'active' : 'primary'} >Home</Button>
-			<Button onClick={() => setActiveTab('transactions')} variant={activeTab === 'home' ? 'active' : 'primary'} >All Transactions</Button>
-			<Button onClick={() => setActiveTab('overview')} variant={activeTab === 'home' ? 'active' : 'primary'} >Monthly overview</Button>
-			<Button onClick={() => setActiveTab('currency')} variant={activeTab === 'home' ? 'active' : 'primary'} >Exchange rate</Button>
-		</>
+		<nav className="nav-bar"> 
+			<button
+				className={`btn-nav ${activeTab === 'home' ? 'active' : ''}`}
+				onClick={() => setActiveTab('home')}
+			>
+				Home
+			</button>
+			<button
+				className={`btn-nav ${activeTab === 'transactions' ? 'active' : ''}`}
+				onClick={() => setActiveTab('transactions')}
+			>
+				All Transactions
+			</button>
+			<button
+				className={`btn-nav ${activeTab === 'overview' ? 'active' : ''}`}
+				onClick={() => setActiveTab('overview')}
+			>
+				Monthly Overview
+			</button>
+			<button
+				className={`btn-nav ${activeTab === 'currency' ? 'active' : ''}`}
+				onClick={() => setActiveTab('currency')}
+			>
+				Exchange Rate
+			</button>
+		</nav>
 	)
 }
 

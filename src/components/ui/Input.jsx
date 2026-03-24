@@ -1,3 +1,5 @@
+import '../../styles/Input.css'
+
 const Input = (props) => {
 	const {
 		label,

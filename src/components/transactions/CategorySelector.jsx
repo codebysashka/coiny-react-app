@@ -6,13 +6,14 @@ const CategorySelector = (props) => {
 		setCategory,
 		subCategory,
 		setSubCategory,
-		isFilter
+		isFilter,
+		className
 	} = props
 
 	const handleCategoryChange = (e) => {
 		const newCategory = e.target.value
 		setCategory(newCategory)
-		if (isFilter && newCategory === 'all') {
+		if (isFilter) {
 			setSubCategory('all')
 		} else {
 			setSubCategory(SUBCATEGORIES[newCategory][0])
@@ -21,13 +22,17 @@ const CategorySelector = (props) => {
 
 	return (
 		<>
-			<select value={category} onChange={handleCategoryChange}>
+			<select
+				className={className}
+				value={category}
+				onChange={handleCategoryChange}>
 				{isFilter && <option value="all">All Categories</option>}
 				{CATEGORIES.map(cat => (
 					<option key={cat} value={cat}>{cat.charAt(0).toUpperCase() + cat.slice(1)}</option>
 				))}
 			</select>
 			<select
+				className={className}
 				value={subCategory}
 				onChange={(e) => setSubCategory(e.target.value)}
 				disabled={isFilter && category === 'all'}

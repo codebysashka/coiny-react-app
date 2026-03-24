@@ -4,7 +4,6 @@ import '../../styles/TransactionList.css'
 const TransactionList = (props) => {
 	const {
 		items,
-		onDelete,
 		onEdit
 	} = props
 

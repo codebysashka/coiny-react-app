@@ -1,5 +1,6 @@
 import Input from "../ui/Input"
 import Amount from "../ui/Amount"
+import '../../styles/TransactionsTable.css'
 
 const TransactionsTable = (props) => {
 	const {
@@ -12,37 +13,38 @@ const TransactionsTable = (props) => {
 	} = props
 
 	return (
-		<table>
+		<table className="history-table-full">
 			<thead>
 				<tr>
 					<th>Select</th>
 					<th onClick={() => onSort('date')} style={{ cursor: 'pointer' }}>
-						Date {sortConfig.key === 'date' ? (sortConfig.direction === 'asc' ? '↓' : '↑') : ''}
+						Date {sortConfig.key === 'date' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}
 					</th>
 					<th onClick={() => onSort('text')} style={{ cursor: 'pointer' }}>
-						Description {sortConfig.key === 'text' ? (sortConfig.direction === 'asc' ? '↓' : '↑') : ''}
+						Description {sortConfig.key === 'text' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}
 					</th>
 					<th onClick={() => onSort('merchant')} style={{ cursor: 'pointer' }}>
-						Merchant {sortConfig.key === 'merchant' ? (sortConfig.direction === 'asc' ? '↓' : '↑') : ''}
+						Merchant {sortConfig.key === 'merchant' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}
 					</th>
 					<th onClick={() => onSort('category')} style={{ cursor: 'pointer' }}>
-						Category {sortConfig.key === 'category' ? (sortConfig.direction === 'asc' ? '↓' : '↑') : ''}
+						Category {sortConfig.key === 'category' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}
 					</th>
 					<th onClick={() => onSort('subCategory')} style={{ cursor: 'pointer' }}>
-						SubCategory {sortConfig.key === 'subCategory' ? (sortConfig.direction === 'asc' ? '↓' : '↑') : ''}
+						SubCategory {sortConfig.key === 'subCategory' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}
 					</th>
 					<th onClick={() => onSort('amount')} style={{ cursor: 'pointer' }}>
-						Amount {sortConfig.key === 'amount' ? (sortConfig.direction === 'asc' ? '↓' : '↑') : ''}
+						Amount {sortConfig.key === 'amount' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}
 					</th>
 				</tr>
 			</thead>
 			<tbody>
 				{items.map((item) => (
 					<tr key={item.id}
+						className={item.type === 'income' ? 'row-income' : 'row-expense'}
 						onClick={(e) => {
 							if (e.target.type !== 'checkbox') onEdit(item)
 						}}
-						style={{ color: item.type === 'income' ? 'green' : 'red', cursor: 'pointer' }}>
+						style={{ cursor: 'pointer' }}>
 						<td>
 							<Input
 								type="checkbox"
@@ -55,7 +57,7 @@ const TransactionsTable = (props) => {
 						<td>{item.merchant}</td>
 						<td>{item.category}</td>
 						<td>{item.subCategory}</td>
-						<td><Amount value={item.amount} type={item.type} /></td>
+						<td><Amount value={item.amount} type={item.type} showColor={false} /></td>
 					</tr>
 				))}
 			</tbody>

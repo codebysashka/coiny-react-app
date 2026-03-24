@@ -1,3 +1,5 @@
+import '../../styles/Button.css'
+
 const Button = (props) => {
 	const {
 		onClick,
@@ -12,7 +14,7 @@ const Button = (props) => {
 			type={type}
 			onClick={onClick}
 			disabled={disabled}
-			className={`btn-${variant}`} >
+			className={`btn btn-${variant}`} >
 			{children}
 		</button>
 	)

@@ -11,8 +11,6 @@ import { useFinance } from '../hooks/useFinance'
 import Header from '../components/layout/Header'
 import SavingsForm from './savings/SavingsForm'
 import SavingsList from './savings/SavingsList'
-import '../styles/index.css'
-
 
 const Dashboard = () => {
 	const finance = useFinance()
@@ -22,11 +20,9 @@ const Dashboard = () => {
 				setActiveTab={finance.setActiveTab}
 				activeTab={finance.activeTab}
 			/>
-
 			{finance.activeTab === 'home' && (
 				<div className="app-container">
 					<Header balance={finance.totalBalance} />
-
 					<div className='home-layout'>
 						<div className='left-side'>
 							<div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'flex-end' }}>
@@ -65,15 +61,12 @@ const Dashboard = () => {
 			)}
 
 			{finance.activeTab === 'transactions' && (
-				<main>
-					<h2>All Transactions History</h2>
 					<TransactionsPage
 						items={finance.transaction}
 						setTransaction={finance.setTransaction}
 						onAdd={finance.addTransaction}
 						onEdit={finance.setEditingTransaction}
 					/>
-				</main>
 			)}
 
 			{finance.activeTab === 'overview' && (
@@ -88,13 +81,13 @@ const Dashboard = () => {
 			)}
 
 			{finance.activeTab === 'currency' && (
-				<main>
+				<>
 					<h2>Currency Settings</h2>
 					<CurrencyPage
 						rates={finance.rates}
 						totalBalance={finance.totalBalance}
 					/>
-				</main>
+				</>
 			)}
 
 			<ModalWindow

@@ -10,7 +10,7 @@ const Amount = (props) => {
 
 	const colorStyle = !showColor
 		? 'inherit'
-		: (isExpense ? 'red' : isIncome ? 'green' : 'inherit')
+		: (isExpense ? '#ff4757' : isIncome ? '#26de81' : 'inherit')
 
 	const style = {
 		color: colorStyle,

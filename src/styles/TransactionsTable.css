@@ -1,0 +1,92 @@
+.table-full-width {
+	margin-top: 30px;
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+.history-table-full {
+	width: 100%;
+	border-collapse: collapse;
+	background: rgba(255, 255, 255, 0.1);
+	border: 2px solid rgba(255, 255, 255, 0.048);
+	border-radius: 20px;
+	overflow: hidden;
+}
+
+.history-table-full th {
+	background: rgba(255, 255, 255, 0.15);
+	color: #ffffff;
+	padding: 20px 15px;
+	text-align: center;
+	font-size: 15px;
+	font-weight: 900;
+	text-transform: uppercase;
+	letter-spacing: 1.5px;
+	border: 1px solid rgba(255, 255, 255, 0.384);
+}
+
+.history-table-full td {
+	padding: 15px;
+	color: #ffffff;
+	font-weight: 600;
+	font-size: 15px;
+	border: 1px solid rgba(255, 255, 255, 0.384);
+}
+
+.row-income {
+	background: rgba(91, 235, 151, 0.562);
+}
+
+.row-expense {
+	background: rgba(236, 98, 110, 0.63);
+}
+
+.history-table-full tr:hover{
+	filter: brightness(1.5);
+	transition: 0.2s;
+}
+
+.history-table-full input[type="checkbox"] {
+	width: 22px;
+	height: 22px;
+	cursor: pointer;
+	accent-color: #9d8df1;
+}
+
+.history-table-full th:nth-child(1),
+.history-table-full td:nth-child(1) {
+	width: 60px;
+	text-align: center;
+}
+
+.history-table-full th:nth-child(2),
+.history-table-full td:nth-child(2) {
+	width: 120px;
+}
+
+.history-table-full th:nth-child(3),
+.history-table-full td:nth-child(3) {
+	width: auto;
+}
+
+.history-table-full th:nth-child(4),
+.history-table-full td:nth-child(4) {
+	width: 300px;
+}
+
+.history-table-full th:nth-child(5),
+.history-table-full td:nth-child(5) {
+	width: 300px;
+}
+
+.history-table-full th:nth-child(6),
+.history-table-full td:nth-child(6) {
+	width: 300px;
+}
+
+.history-table-full th:last-child,
+.history-table-full td:last-child {
+	text-align: center;
+	width: 150px;
+}
+
