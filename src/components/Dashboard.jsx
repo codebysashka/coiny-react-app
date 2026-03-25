@@ -70,19 +70,15 @@ const Dashboard = () => {
 			)}
 
 			{finance.activeTab === 'overview' && (
-				<main>
-					<h2>Monthly Overview & Analytics</h2>
 					<MonthlyOverviewPage
 						transactions={finance.transaction}
 						budgets={finance.budgets}
 						onUpdate={finance.updateBudget}
 					/>
-				</main>
 			)}
 
 			{finance.activeTab === 'currency' && (
 				<>
-					<h2>Currency Settings</h2>
 					<CurrencyPage
 						rates={finance.rates}
 						totalBalance={finance.totalBalance}

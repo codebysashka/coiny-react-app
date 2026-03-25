@@ -65,52 +65,59 @@ const MonthlyOverviewPage = (props) => {
 
 	const incomeData = categorySummary.find(item => item.name === 'income')
 	const expenseSummary = categorySummary.filter(item => item.name !== 'income')
-	
+
 	return (
-		<>
-			<Input
-				name="date"
-				type="month"
-				value={selectedDate}
-				onChange={(e) => setSelectedDate(e.target.value)}
-			/>
-			<h2>{dateTitle}</h2>
-			<Button onClick={() => setIsModalOpen(true)}>Set Monthly Budget</Button>
-			<section>
-				<div>
-					<div>
-						<strong>Total Income:</strong> <Amount value={totalMonthlyIncome} showColor={false} />
-					</div>
-					<div>
-						<strong>Total Budget (Limit):</strong> <Amount value={totalPlanned} showColor={false} />
-					</div>
-					<div>
-						<strong>Total Expenses:</strong> <Amount value={totalMonthlyExpenses} showColor={false} />
-					</div>
-					<div>
-						<strong>Remaining Budget:</strong> <Amount value={totalPlanned - totalMonthlyExpenses} showColor={false} />
-					</div>
-				</div>
-				<div>
-					<h3>Income Tracking</h3>
-					<p>Expected: <Amount value={incomeData?.budget} /> | Actual: <Amount value={incomeData?.totalSpent} /></p>
-					<p>Difference: <Amount value={incomeData?.remaining} type="income" showColor={false}/></p>
-				</div>
-				<hr />
-				<h3>Expense Limits</h3>
-				<OverviewTable
-					data={expenseSummary}
+		<div className="overview-page-container">
+			<div className="overview-header">
+				<h2>Monthly Overview & Analytics</h2>
+				<h2>{dateTitle}</h2>
+				<Input
+					name="date"
+					type="month"
+					value={selectedDate}
+					onChange={(e) => setSelectedDate(e.target.value)}
 				/>
-			</section>
-			<OverviewCharts
-				monthlyData={monthlyData}
-				currentMonthBudgets={currentMonthBudgets}
-				categories={categories}
-				selectedDate={selectedDate}
-				totalMonthlyExpenses={totalMonthlyExpenses}
-				totalMonthlyIncome={totalMonthlyIncome}
-				categorySummary={categorySummary}
-			/>
+				<Button onClick={() => setIsModalOpen(true)}>Set Monthly Budget</Button>
+			</div>
+			<div className="overview-grid">
+				<div className="column column-left">
+					<div className="glass-card">
+						<div>
+							<div>
+								<strong>Total Income:</strong> <Amount value={totalMonthlyIncome} showColor={false} />
+							</div>
+							<div>
+								<strong>Total Budget (Limit):</strong> <Amount value={totalPlanned} showColor={false} />
+							</div>
+							<div>
+								<strong>Total Expenses:</strong> <Amount value={totalMonthlyExpenses} showColor={false} />
+							</div>
+							<div>
+								<strong>Remaining Budget:</strong> <Amount value={totalPlanned - totalMonthlyExpenses} showColor={false} />
+							</div>
+						</div>
+						<div>
+							<h3>Income Tracking</h3>
+							<p>Expected: <Amount value={incomeData?.budget} /> | Actual: <Amount value={incomeData?.totalSpent} /></p>
+							<p>Difference: <Amount value={incomeData?.remaining} type="income" showColor={false} /></p>
+						</div>
+						<hr />
+						<h3>Expense Limits</h3>
+						<OverviewTable
+							data={expenseSummary}
+						/>
+					</div>
+				</div>
+				<OverviewCharts
+					monthlyData={monthlyData}
+					currentMonthBudgets={currentMonthBudgets}
+					categories={categories}
+					selectedDate={selectedDate}
+					totalMonthlyExpenses={totalMonthlyExpenses}
+					totalMonthlyIncome={totalMonthlyIncome}
+					categorySummary={categorySummary}
+				/>
+			</div>
 			<ModalWindow
 				isOpen={isModalOpen}
 				onClose={() => setIsModalOpen(false)}
@@ -124,7 +131,7 @@ const MonthlyOverviewPage = (props) => {
 					onClose={() => setIsModalOpen(false)}
 				/>
 			</ModalWindow>
-		</>
+		</div>
 	)
 }
 

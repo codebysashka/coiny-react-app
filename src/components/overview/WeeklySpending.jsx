@@ -1,10 +1,14 @@
+import '../../styles/WeeklySpending.css'
+import Amount from '../ui/Amount'
+
 const WeeklySpending = (props) => {
 	const {
 		monthlyData,
 		selectedDate,
-		lastDay
+		lastDay,
+		totalMonthlyExpenses
 	} = props
-	
+
 	const monthShort = new Date(selectedDate + '-01').toLocaleString('en-US', { month: 'short' })
 	const weeklyData = [
 		{ range: '1-7', start: 1, end: 7, total: 0 },
@@ -32,15 +36,48 @@ const WeeklySpending = (props) => {
 		}
 	})
 
+	const totalMonth = weeklyData.reduce((acc, week) => acc + week.total, 0)
+	const avgWeek = (totalMonth / weeklyData.length).toFixed(2)
+	const maxWeekly = Math.max(...weeklyData.map(w => w.total), 1)
+	const dailyAverage = (Math.abs(totalMonthlyExpenses) / lastDay).toFixed(2)
+
 	return (
-		<div>
-			<h3>Weekly Spending</h3>
-			{weeklyData.map(week => (
-				<div key={week.range}>
-					<span>{monthShort} {week.range}: </span>
-					<strong>{week.total} ₽</strong>
+		<div className="weekly-spending-section">
+			<h3 className="main-chart-title">WEEKLY SPENDING</h3>
+			<p className="main-chart-subtitle">savings excluded</p>
+
+			<div className="single-inner-frame">
+				<div className="weeks-list">
+					{weeklyData.map(week => {
+						const barWidth = (week.total / maxWeekly) * 100
+
+						return (
+							<div key={week.range} className="week-row">
+								<span className="week-label">
+									{monthShort.toUpperCase()} {week.range}
+								</span>
+
+								<div className="bar-container">
+									<div
+										className="bar-fill"
+										style={{ width: `${barWidth}%` }}
+									></div>
+								</div>
+
+								<span className="week-amount">
+									<Amount value={week.total} type="expense" showColor={false} />
+								</span>
+							</div>
+						)
+					})}
 				</div>
-			))}
+
+				<div className="weekly-footer">
+					<div>Month to date: <strong><Amount value={totalMonth} type="expense" showColor={false} /></strong></div>
+					<div>Daily average: <strong><Amount value={dailyAverage} type="expense" showColor={false} /></strong></div>
+					<div>Avg/week: <strong><Amount value={avgWeek} type="expense" showColor={false} /></strong></div>
+				</div>
+			</div>
 		</div>
 	)
 }

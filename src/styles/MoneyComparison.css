@@ -1,0 +1,56 @@
+.money-comparison-section {
+	width: 100%;
+}
+
+.top-labels {
+	display: flex;
+	justify-content: space-around;
+	margin-bottom: 5px;
+}
+
+.group-header {
+	font-size: 18px;
+	font-weight: 900;
+	color: #4a4a6a;
+	width: 180px;
+	text-align: center;
+}
+
+.bottom-labels-row {
+	display: flex;
+	justify-content: space-around;
+	margin-top: 5px;
+}
+
+.label-group {
+	display: flex;
+	gap: 20px;
+	width: 180px;
+	justify-content: center;
+}
+
+.label-group span {
+	font-size: 11px;
+	font-weight: 900;
+	width: 80px;
+	text-align: center;
+}
+
+.in-text {
+	color: #4a4a6a;
+}
+
+.out-text {
+	color: #4a4a6a;
+}
+
+.ratios-footer {
+	display: flex;
+	justify-content: space-around;
+	margin-top: 30px;
+	font-size: 15px;
+	font-weight: 900;
+	color: #4a4a6a;
+	border-top: 2px solid #f8f9fa;
+	padding-top: 20px;
+}
