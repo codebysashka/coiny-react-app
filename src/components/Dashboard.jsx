@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Navigation from './layout/Navigation'
 import TransactionsPage from '../pages/TransactionsPage'
 import TransactionForm from './transactions/TransactionForm'
@@ -11,9 +12,24 @@ import { useFinance } from '../hooks/useFinance'
 import Header from '../components/layout/Header'
 import SavingsForm from './savings/SavingsForm'
 import SavingsList from './savings/SavingsList'
+import Gif from '../assets/c1c67dbb72e66025162d85c2dc8d7501.gif'
+import Input from './ui/Input'
+import Button from './ui/Button'
 
 const Dashboard = () => {
+	const [isEditBalanceOpen, setIsEditBalanceOpen] = useState(false)
+
 	const finance = useFinance()
+	const currentMonth = new Date().toISOString().slice(0, 7)
+	const homeTransactions = finance.transaction
+		.filter(t => t.date.startsWith(currentMonth))
+		.sort((a, b) => {
+			if (b.date !== a.date) {
+				return b.date.localeCompare(a.date)
+			}
+			return b.id - a.id
+		})
+
 	return (
 		<>
 			<Navigation
@@ -22,7 +38,8 @@ const Dashboard = () => {
 			/>
 			{finance.activeTab === 'home' && (
 				<div className="app-container">
-					<Header balance={finance.totalBalance} />
+					<Header balance={finance.totalBalance}
+						onEditBalance={() => setIsEditBalanceOpen(true)} />
 					<div className='home-layout'>
 						<div className='left-side'>
 							<div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'flex-end' }}>
@@ -30,22 +47,19 @@ const Dashboard = () => {
 							</div>
 
 							<div className="glass-card">
-								<h3 style={{ marginTop: 0 }}>Recent Transactions</h3>
+								<h3 className="title-homepage">Recent Transactions</h3>
 								<TransactionList
-									items={finance.transaction}
+									items={homeTransactions}
 									onEdit={finance.setEditingTransaction}
 								/>
 							</div>
 						</div>
 						<div className='right-side'>
-							<div className="glass-card" style={{ marginBottom: '20px', textAlign: 'center', background: '#ffe3e3' }}>
-								<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJueGZ3bm56bmZ3bm56&ep=v1_internal_gif_by_id&rid=giphy.gif"
-									alt="cute gif"
-									style={{ width: '100%', borderRadius: '20px' }} />
-							</div>
+							<img src={Gif}
+								alt="gif" />
 							<div className="glass-card">
 								<div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
-									<h3 style={{ margin: 0 }}>Savings</h3>
+									<h3 className="title-homepage">Savings</h3>
 									<SavingsForm onAdd={finance.addSavings} />
 								</div>
 								<SavingsList
@@ -61,20 +75,20 @@ const Dashboard = () => {
 			)}
 
 			{finance.activeTab === 'transactions' && (
-					<TransactionsPage
-						items={finance.transaction}
-						setTransaction={finance.setTransaction}
-						onAdd={finance.addTransaction}
-						onEdit={finance.setEditingTransaction}
-					/>
+				<TransactionsPage
+					items={finance.transaction}
+					setTransaction={finance.setTransaction}
+					onAdd={finance.addTransaction}
+					onEdit={finance.setEditingTransaction}
+				/>
 			)}
 
 			{finance.activeTab === 'overview' && (
-					<MonthlyOverviewPage
-						transactions={finance.transaction}
-						budgets={finance.budgets}
-						onUpdate={finance.updateBudget}
-					/>
+				<MonthlyOverviewPage
+					transactions={finance.transaction}
+					budgets={finance.budgets}
+					onUpdate={finance.updateBudget}
+				/>
 			)}
 
 			{finance.activeTab === 'currency' && (
@@ -103,7 +117,7 @@ const Dashboard = () => {
 			<ModalWindow
 				isOpen={!!finance.editingSaving}
 				onClose={() => finance.setEditingSaving(null)}
-				title="Edit Savings Goal"
+				title="Edit savings goal"
 			>
 				{finance.editingSaving && (
 					<SavingsEditForm
@@ -112,6 +126,23 @@ const Dashboard = () => {
 						onDelete={finance.deleteSavings}
 					/>
 				)}
+			</ModalWindow>
+
+			<ModalWindow
+				isOpen={isEditBalanceOpen}
+				onClose={() => setIsEditBalanceOpen(false)}
+				title="Edit starting balance"
+			>
+				<div className="modal-body">
+					<label>Set your current physical balance to adjust the total.</label>
+					<Input
+						className="input-simple"
+						type="number"
+						value={finance.initialBalance}
+						onChange={(e) => finance.setInitialBalance(Number(e.target.value))}
+					/>
+					<Button onClick={() => setIsEditBalanceOpen(false)} variant="primary">Confirm</Button>
+				</div>
 			</ModalWindow>
 		</>
 	)

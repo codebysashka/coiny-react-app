@@ -20,11 +20,25 @@ const SavingsEditForm = (props) => {
 
 	return (
 		<form onSubmit={handleSubmit}>
-			<Input label="Goal Name" value={title} onChange={(e) => setTitle(e.target.value)} />
-			<Input label="Target Amount" type="number" value={target} onChange={(e) => setTarget(e.target.value)} />
-			<Input label="Current Saved" type="number" value={current} onChange={(e) => setCurrent(e.target.value)} />
+			<Input
+				className="input-simple"
+				label="Goal name"
+				value={title}
+				onChange={(e) => setTitle(e.target.value)} />
+			<Input
+				className="input-simple"
+				label="Target amount"
+				type="number"
+				value={target}
+				onChange={(e) => setTarget(e.target.value)} />
+			<Input
+				className="input-simple"
+				label="Current saved"
+				type="number"
+				value={current}
+				onChange={(e) => setCurrent(e.target.value)} />
 
-			<div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+			<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '30px' }}>
 				<Button type="submit">Save Changes</Button>
 				<Button variant="delete" onClick={() => onDelete(item.id)}>Delete</Button>
 			</div>

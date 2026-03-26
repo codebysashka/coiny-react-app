@@ -32,20 +32,24 @@ const SavingsForm = (props) => {
 			<ModalWindow
 				isOpen={isOpen}
 				onClose={() => setIsOpen(false)}
-				title="Add New Savings"
+				title="Add new savings"
 			>
 				<form onSubmit={handleSubmit} name="savingsForm">
 					<Input type="text"
+						placeholder="Goal name"
+						className="input-simple"
 						name="savingsName"
 						value={savingsName}
 						onChange={(e) => setSavingsName(e.target.value)}
 					/>
 					<Input type="number"
+						placeholder="Target amount"
+						className="input-simple"
 						name="targetAmount"
 						value={targetAmount}
 						onChange={(e) => setTargetAmount(e.target.value)}
 					/>
-					<Button type="submit">Add</Button>
+					<Button type="submit" variant="primary">Add</Button>
 				</form>
 			</ModalWindow>
 		</>

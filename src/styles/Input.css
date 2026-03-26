@@ -38,3 +38,7 @@ select.input-simple {
 	background-color: #dcd6f7;
 	color: #5e548e;
 }
+
+.modal-body .input-simple {
+	width: 100%;
+}

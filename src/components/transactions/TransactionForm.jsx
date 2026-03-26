@@ -49,10 +49,11 @@ const TransactionForm = (props) => {
 			<ModalWindow
 				isOpen={isOpen}
 				onClose={() => setIsOpen(false)}
-				title='Add New Transaction'
+				title='Add new transaction'
 			>
 				<form onSubmit={handleSubmit}>
 					<Input
+					className="input-simple"
 						type='text'
 						name='description'
 						placeholder='Description'
@@ -60,6 +61,7 @@ const TransactionForm = (props) => {
 						onChange={(e) => setSpendingName(e.target.value)}
 					/>
 					<Input
+					className="input-simple"
 						type='text'
 						name='amount'
 						placeholder='Amount (e.g. 50-30+8)'
@@ -67,6 +69,7 @@ const TransactionForm = (props) => {
 						onChange={(e) => setSpendingAmount(e.target.value.replace(/[^0-9+\-*/.]/g, ''))}
 					/>
 					<Input
+					className="input-simple"
 						type='text'
 						name='merchant'
 						placeholder='Merchant'
@@ -74,6 +77,7 @@ const TransactionForm = (props) => {
 						onChange={(e) => setMerchant(e.target.value)}
 					/>
 					<Input
+					className="input-simple"
 						type='date'
 						name='date'
 						value={date}
@@ -84,6 +88,7 @@ const TransactionForm = (props) => {
 						setCategory={setCategory}
 						subCategory={subCategory}
 						setSubCategory={setSubCategory}
+						className={"input-simple"}
 					/>
 					<Button type='submit' variant='primary'>Add</Button>
 				</form>

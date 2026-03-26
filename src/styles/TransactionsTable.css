@@ -90,3 +90,7 @@
 	width: 150px;
 }
 
+.capitalize {
+	text-transform: capitalize;
+}
+

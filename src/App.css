@@ -1,8 +1,8 @@
 .home-layout {
 	display: grid;
-	grid-template-columns: 1fr 380px;
-	gap: 40px;
-	margin-top: 30px;
+	grid-template-columns: 1.8fr 1fr;
+	gap: 60px;
+	align-items: start;
 }
 
 .column-header {
@@ -24,9 +24,9 @@
 }
 
 .app-container {
-	max-width: 1100px;
+	max-width: 1700px;
 	margin: 0 auto;
-	padding: 40px 20px;
+	padding: 20px;
 }
 
 .overview-grid {
@@ -52,3 +52,25 @@
 	padding: 25px;
 }
 
+.right-side {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.right-side img {
+	width: 100% ;
+	height: auto;
+	border-radius: 30px;
+	margin-bottom: 20px;
+}
+
+.title-homepage {
+	font-size: 30px;
+}
+
+.overview-page-container {
+	width: 1800px;
+	margin: 0 auto;
+	padding-top: 20px;
+}

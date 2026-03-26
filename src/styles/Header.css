@@ -1,0 +1,85 @@
+.main-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 30px;
+	margin-top: 20px;
+}
+
+.logo-wrapper {
+	display: inline-flex;
+	align-items: center;
+	position: relative;
+	animation: floatLogo 4s ease-in-out infinite;
+}
+
+.app-logo {
+	font-size: 70px;
+	font-weight: 900;
+	position: relative;
+	cursor: default;
+	background: linear-gradient(135deg, #ffffff 0%, #ff85a1 50%, #9d8df1 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	filter: drop-shadow(0 0 10px rgba(157, 141, 241, 0.5));
+}
+
+.logo-star {
+	position: absolute;
+	top: -2px;
+	right: -17px;
+	font-size: 28px;
+	color: #fff;
+	filter: drop-shadow(0 0 5px #fff) drop-shadow(0 0 10px #9d8df1);
+	animation: twinkleStar 2s infinite alternate;
+}
+
+.header-balance {
+	text-align: right;
+	background: rgba(255, 255, 255, 0.12);
+	padding: 10px 25px;
+	border-radius: 20px;
+	backdrop-filter: blur(15px);
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.balance-label {
+	display: block;
+	font-size: 16px;
+	text-transform: uppercase;
+	font-weight: 800;
+	color: #b8c1ec;
+	letter-spacing: 2px;
+	margin-bottom: 4px;
+}
+
+.balance-amount-wrapper {
+	font-size: 40px;
+}
+
+@keyframes floatLogo {
+	0% {
+		transform: translateY(0px);
+	}
+
+	50% {
+		transform: translateY(-10px);
+	}
+
+	100% {
+		transform: translateY(0px);
+	}
+}
+
+@keyframes twinkleStar {
+	from {
+		opacity: 0.4;
+		transform: scale(0.8) rotate(0deg);
+	}
+
+	to {
+		opacity: 1;
+		transform: scale(1.2) rotate(20deg);
+	}
+}

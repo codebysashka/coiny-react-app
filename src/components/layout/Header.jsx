@@ -1,15 +1,27 @@
 import Amount from "../ui/Amount"
+import '../../styles/Header.css'
 
 const Header = (props) => {
 	const {
 		balance,
+		onEditBalance
 	} = props
 
 	return (
-		<>
-		<h1>Coiny</h1>
-		<h2>Current Balance: <Amount value={balance} /></h2>
-		</>
+		<header className="main-header">
+			<div className="logo-wrapper">
+				<h1 className="app-logo">Coiny</h1>
+				<span className="logo-star">✦</span>
+			</div>
+			<div className="header-balance"
+				onClick={onEditBalance}
+				style={{ cursor: 'pointer' }}>
+				<span className="balance-label">Total Balance<br />(Click to edit):</span>
+				<div className="balance-amount-wrapper">
+					<Amount value={balance} showColor={false} />
+				</div>
+			</div>
+		</header>
 	)
 }
 

@@ -8,11 +8,11 @@ const TransactionList = (props) => {
 	} = props
 
 	const grouped = items.reduce((acc, item) => {
-		const date = new Date(item.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
-		if (!acc[date]) acc[date] = [];
-		acc[date].push(item);
-		return acc;
-	}, {});
+		const date = new Date(item.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' })
+		if (!acc[date]) acc[date] = []
+		acc[date].push(item)
+		return acc
+	}, {})
 
 	return (
 		<div className="transactions-list-container">
@@ -25,18 +25,6 @@ const TransactionList = (props) => {
 				</div>
 			))}
 		</div>
-		// <ul>
-		// 	{items.map((item) => {
-		// 		return (
-		// 			<TransactionItem
-		// 				key={item.id}
-		// 				data={item}
-		// 				onDelete={onDelete}
-		// 				onEdit={onEdit}
-		// 			/>
-		// 		)
-		// 	})}
-		// </ul>
 	)
 }
 

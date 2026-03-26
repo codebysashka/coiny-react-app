@@ -84,15 +84,18 @@ const TransactionsPage = (props) => {
 		let valA = a[sortConfig.key]
 		let valB = b[sortConfig.key]
 
+		if (sortConfig.key === 'date') {
+			if (valA !== valB) {
+				return sortConfig.direction === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA)
+			}
+			return b.id - a.id
+		}
+
 		if (typeof valA === 'string') valA = valA.toLowerCase()
 		if (typeof valB === 'string') valB = valB.toLowerCase()
 
-		if (valA < valB) {
-			return sortConfig.direction === 'asc' ? -1 : 1
-		}
-		if (valA > valB) {
-			return sortConfig.direction === 'asc' ? 1 : -1
-		}
+		if (valA < valB) return sortConfig.direction === 'asc' ? -1 : 1
+		if (valA > valB) return sortConfig.direction === 'asc' ? 1 : -1
 		return 0
 	})
 
@@ -164,7 +167,7 @@ const TransactionsPage = (props) => {
 								isFilter={true}
 								className="input-simple"
 							/>
-							
+
 							<TransactionForm onAdd={onAdd} />
 						</div>
 					</div>
@@ -173,17 +176,17 @@ const TransactionsPage = (props) => {
 					/>
 					<div className="delete-btn">
 						{selectedIds.length > 0 && (
-								<Button
-									variant='delete'
-									onClick={() => {
-										const remaining = items.filter(item => !selectedIds.includes(item.id))
-										setTransaction(remaining)
-										setSelectedIds([])
-									}}
-								>
-									Delete selected ({selectedIds.length})
-								</Button>
-							)}
+							<Button
+								variant='delete'
+								onClick={() => {
+									const remaining = items.filter(item => !selectedIds.includes(item.id))
+									setTransaction(remaining)
+									setSelectedIds([])
+								}}
+							>
+								Delete selected ({selectedIds.length})
+							</Button>
+						)}
 					</div>
 
 				</div>

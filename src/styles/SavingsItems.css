@@ -1,0 +1,58 @@
+.saving-card {
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 25px;
+	padding: 20px;
+	margin-bottom: 15px;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	transition: 0.3s;
+}
+
+.saving-card:hover {
+	background: rgba(255, 255, 255, 0.15);
+}
+
+.saving-header {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 10px;
+	font-weight: 700;
+}
+
+.progress-bar-bg {
+	height: 10px;
+	background: rgba(0, 0, 0, 0.1);
+	border-radius: 10px;
+	margin-bottom: 10px;
+	overflow: hidden;
+}
+
+.progress-bar-fill {
+	height: 100%;
+	background: linear-gradient(90deg, #9d8df1, #ff85a1);
+	border-radius: 10px;
+}
+
+.saving-details {
+	display: flex;
+	justify-content: space-between;
+	font-size: 14px;
+	opacity: 0.8;
+	margin-bottom: 15px;
+}
+
+.saving-actions {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.saving-btns {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 10px;
+}
+
+ul {
+	list-style: none;
+	padding: 0;
+}

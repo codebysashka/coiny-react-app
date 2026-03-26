@@ -11,9 +11,22 @@ export const useFinance = () => {
 		return savedData ? JSON.parse(savedData) : []
 	})
 
-	const totalBalance = transaction.reduce((acc, item) => {
-		return item.type === 'income' ? acc + item.amount : acc - item.amount
+	const [initialBalance, setInitialBalance] = useState(() => {
+		const saved = localStorage.getItem('initialBalance')
+		return saved ? Number(saved) : 0
+	})
+
+	useEffect(() => {
+		localStorage.setItem('initialBalance', initialBalance)
+	}, [initialBalance])
+
+	const totalTransactionsSum = transaction.reduce((acc, item) => {
+		const amt = Number(item.amount) || 0
+		return item.type === 'income' ? acc + amt : acc - amt
 	}, 0)
+
+	const totalBalance = (Number(initialBalance) || 0) + totalTransactionsSum
+
 	const [activeTab, setActiveTab] = useState('home')
 
 	const [rates, setRates] = useState({})
@@ -153,6 +166,7 @@ export const useFinance = () => {
 	return {
 		transaction, setTransaction,
 		savings, setSavings,
+		initialBalance, setInitialBalance,
 		totalBalance,
 		rates,
 		budgets,

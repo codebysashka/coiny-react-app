@@ -33,16 +33,35 @@ const TransactionEditForm = (props) => {
 
 	return (
 		<form onSubmit={handleSubmit}>
-			<Input label="Description" value={spendingName} onChange={(e) => setSpendingName(e.target.value)} />
-			<Input label="Amount" type="number" value={spendingAmount} onChange={(e) => setSpendingAmount(e.target.value)} />
-			<Input label="Merchant" value={merchant} onChange={(e) => setMerchant(e.target.value)} />
-			<Input label="Date" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
-			
+			<Input
+				className="input-simple"
+				label="Description"
+				value={spendingName}
+				onChange={(e) => setSpendingName(e.target.value)} />
+			<Input
+				className="input-simple"
+				label="Amount"
+				type="number"
+				value={spendingAmount}
+				onChange={(e) => setSpendingAmount(e.target.value)} />
+			<Input
+				className="input-simple"
+				label="Merchant"
+				value={merchant}
+				onChange={(e) => setMerchant(e.target.value)} />
+			<Input
+				className="input-simple"
+				label="Date"
+				type="date"
+				value={date}
+				onChange={(e) => setDate(e.target.value)} />
+
 			<CategorySelector
 				category={category}
 				setCategory={setCategory}
 				subCategory={subCategory}
 				setSubCategory={setSubCategory}
+				className={"input-simple"}
 			/>
 
 			<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '30px' }}>

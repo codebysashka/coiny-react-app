@@ -53,10 +53,10 @@ const TransactionsTable = (props) => {
 							/>
 						</td>
 						<td>{new Date(item.date).toLocaleDateString('ru-RU')}</td>
-						<td>{item.text}</td>
-						<td>{item.merchant}</td>
-						<td>{item.category}</td>
-						<td>{item.subCategory}</td>
+						<td className="capitalize">{item.text}</td>
+						<td className="capitalize">{item.merchant}</td>
+						<td className="capitalize">{item.category}</td>
+						<td className="capitalize">{item.subCategory}</td>
 						<td><Amount value={item.amount} type={item.type} showColor={false} /></td>
 					</tr>
 				))}

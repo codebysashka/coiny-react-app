@@ -1,11 +1,15 @@
 import Amount from '../ui/Amount'
 import '../../styles/TransactionItems.css'
+import { CATEGORY_ICONS } from '../constants'
 
 
 const TransactionItem = ({ data, onEdit }) => {
 	return (
 		<div className="transaction-pill" onClick={() => onEdit(data)}>
 			<div className="pill-left">
+				<div className="pill-icon-container">
+					<img src={CATEGORY_ICONS[data.category] || CATEGORY_ICONS.other} alt="icon" />
+				</div>
 				<div className="pill-info">
 					<span className="pill-title">{data.text}</span>
 					<span className="pill-merchant">{data.merchant}</span>
